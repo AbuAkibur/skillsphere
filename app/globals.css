@@ -1,0 +1,211 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-syne: "Syne", sans-serif;
+  --font-plus-jakarta: "Plus Jakarta Sans", sans-serif;
+  --primary: #ff6b00;
+  --primary-dark: #e55a00;
+  --primary-light: #ff8a33;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-plus-jakarta);
+  background-color: #ffffff;
+  color: #1a1a2e;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff8f3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff6b00;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e55a00;
+}
+
+/* Orange gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #ff6b00, #ff4500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(255, 107, 0, 0.15);
+}
+
+/* Orange underline decoration */
+.underline-orange {
+  position: relative;
+}
+
+.underline-orange::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b00, #ff4500);
+  border-radius: 2px;
+}
+
+/* Section title */
+.section-title {
+  font-family: var(--font-syne);
+  font-weight: 700;
+}
+
+/* Btn primary */
+.btn-orange {
+  background: linear-gradient(135deg, #ff6b00, #ff4500);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-orange:hover {
+  background: linear-gradient(135deg, #e55a00, #d43c00);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 107, 0, 0.4);
+  color: white;
+}
+
+/* Star rating */
+.stars {
+  color: #fbbf24;
+}
+
+/* Glass card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 107, 0, 0.1);
+}
+
+/* Orange badge */
+.badge-orange {
+  background: rgba(255, 107, 0, 0.1);
+  color: #ff6b00;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+}
+
+/* Input focus */
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #ff6b00 !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15) !important;
+}
+
+/* Loading spinner */
+.spinner {
+  border: 3px solid rgba(255, 107, 0, 0.2);
+  border-top-color: #ff6b00;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hero pattern bg */
+.hero-pattern {
+  background-image: radial-gradient(
+      circle at 20% 50%,
+      rgba(255, 107, 0, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 138, 51, 0.06) 0%,
+      transparent 40%
+    );
+}
+
+/* Floating animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Course card image zoom */
+.img-zoom {
+  overflow: hidden;
+}
+
+.img-zoom img {
+  transition: transform 0.4s ease;
+}
+
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Navbar active link */
+.nav-link-active {
+  color: #ff6b00;
+  font-weight: 600;
+}
+
+.nav-link-active::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: #ff6b00;
+  border-radius: 1px;
+  margin-top: 2px;
+}
+
+/* Responsive section padding */
+.section-padding {
+  padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 48px 0;
+  }
+}
