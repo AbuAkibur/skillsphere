@@ -2,8 +2,6 @@
 
 > **Upgrade Your Skills Today 🚀** — A modern, full-stack e-learning platform built with Next.js 15.
 
-![SkillSphere Banner](https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&q=80)
-
 ## 🌐 Live URL
 
 [https://skillsphere.vercel.app](https://skillsphere.vercel.app) *(deploy and replace with your URL)*
@@ -204,4 +202,4 @@ MIT License — feel free to use this project for learning purposes.
 
 ---
 
-*Built with ❤️ using Next.js 15 and SkillSphere design system*
+*All rights reserved by abuakibur@gmail.com*
