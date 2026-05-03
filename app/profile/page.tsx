@@ -1,0 +1,16 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import ProfileClient from "./ProfileClient";
+
+export default async function ProfilePage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/login?redirect=/profile");
+  }
+
+  return <ProfileClient user={session.user} />;
+}
