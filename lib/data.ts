@@ -41,7 +41,7 @@ export const courses: Course[] = [
       "Deployment with Vercel & Railway",
     ],
     image:
-      "https://images.unsplash.com/photo-1587620962725-abab19836100?w=800&q=80",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80",
     category: "Web Development",
     price: 299,
     lectures: 186,
