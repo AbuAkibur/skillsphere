@@ -4,11 +4,10 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff, Mail, Lock, BookOpen } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, BookOpen, UserCheck } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 
-// 1. Move logic into a sub-component
 function LoginFormContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +16,6 @@ function LoginFormContent() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const router = useRouter();
 
-  // This hook is what triggers the need for Suspense
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
 
@@ -52,6 +50,31 @@ function LoginFormContent() {
     }
   };
 
+  const handleGuestLogin = async () => {
+    setLoading(true);
+    try {
+      await authClient.signIn.email({
+        email: "guest@skillsphere.com",
+        password: "GuestPassword123!",
+        callbackURL: redirect,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Logged in as Guest! 🚀");
+            router.push(redirect);
+            router.refresh();
+          },
+          onError: () => {
+            toast.error("Guest account not found. Please register it first on the site.");
+          },
+        },
+      });
+    } catch {
+      toast.error("Guest login failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     try {
@@ -67,11 +90,9 @@ function LoginFormContent() {
 
   return (
     <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden flex">
-      {/* Left - Illustration */}
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-orange-50 to-[#FFE0C2] items-center justify-center p-10 relative">
         <div className="absolute w-64 h-64 bg-[#FF6B00]/10 rounded-full top-10 -left-20" />
         <div className="absolute w-48 h-48 bg-[#FF8A33]/10 rounded-full bottom-10 right-0" />
-
         <div className="relative text-center">
           <div className="relative w-72 h-72 mx-auto">
             <Image
@@ -82,45 +103,30 @@ function LoginFormContent() {
             />
           </div>
           <div className="mt-6">
-            <h2
-              className="text-2xl font-bold text-[#1A1A2E]"
-              style={{ fontFamily: "Syne, sans-serif" }}
-            >
+            <h2 className="text-2xl font-bold text-[#1A1A2E]" style={{ fontFamily: "Syne, sans-serif" }}>
               Welcome Back!
             </h2>
-            <p className="text-gray-500 mt-2 text-sm">
-              Continue your learning journey
-            </p>
+            <p className="text-gray-500 mt-2 text-sm">Continue your learning journey</p>
           </div>
         </div>
       </div>
 
-      {/* Right - Form */}
       <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center">
         <Link href="/" className="flex items-center gap-2 mb-8">
           <div className="w-8 h-8 bg-gradient-to-br from-[#FF6B00] to-[#FF4500] rounded-xl flex items-center justify-center">
             <BookOpen className="w-4 h-4 text-white" />
           </div>
-          <span
-            className="text-lg font-bold"
-            style={{ fontFamily: "Syne, sans-serif" }}
-          >
+          <span className="text-lg font-bold" style={{ fontFamily: "Syne, sans-serif" }}>
             Skill<span className="gradient-text">Sphere</span>
           </span>
         </Link>
 
-        <h1
-          className="text-2xl md:text-3xl font-bold text-[#1A1A2E] mb-2"
-          style={{ fontFamily: "Syne, sans-serif" }}
-        >
+        <h1 className="text-2xl md:text-3xl font-bold text-[#1A1A2E] mb-2" style={{ fontFamily: "Syne, sans-serif" }}>
           Login <span className="gradient-text underline-orange">Now</span>
         </h1>
         <p className="text-gray-500 text-sm mb-8">
           Don&apos;t have an account?{" "}
-          <Link
-            href="/register"
-            className="text-[#FF6B00] font-semibold hover:underline"
-          >
+          <Link href="/register" className="text-[#FF6B00] font-semibold hover:underline">
             Register here
           </Link>
         </p>
@@ -153,19 +159,12 @@ function LoginFormContent() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
-              {showPassword ? (
-                <EyeOff className="w-4 h-4" />
-              ) : (
-                <Eye className="w-4 h-4" />
-              )}
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
 
           <div className="text-right">
-            <a
-              href="#"
-              className="text-xs text-[#FF6B00] hover:underline font-medium"
-            >
+            <a href="#" className="text-xs text-[#FF6B00] hover:underline font-medium">
               Forgot password?
             </a>
           </div>
@@ -181,25 +180,33 @@ function LoginFormContent() {
 
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-xs text-gray-400 font-medium">
-            or continue with
-          </span>
+          <span className="text-xs text-gray-400 font-medium">or continue with</span>
           <div className="flex-1 h-px bg-gray-200" />
         </div>
 
-        <button
-          onClick={handleGoogleLogin}
-          disabled={googleLoading}
-          className="w-full py-3.5 border-2 border-gray-200 rounded-xl font-semibold text-gray-700 text-sm flex items-center justify-center gap-3 hover:border-[#FF6B00] hover:text-[#FF6B00] transition-all"
-        >
-          Login with Google
-        </button>
+        <div className="space-y-3">
+          <button
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+            className="w-full py-3 border-2 border-gray-200 rounded-xl font-semibold text-gray-700 text-sm flex items-center justify-center gap-3 hover:border-[#FF6B00] hover:text-[#FF6B00] transition-all"
+          >
+            Login with Google
+          </button>
+
+          <button
+            type="button"
+            onClick={handleGuestLogin}
+            className="w-full py-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl font-bold text-gray-500 text-sm flex items-center justify-center gap-2 hover:bg-orange-50 hover:border-[#FF6B00] hover:text-[#FF6B00] transition-all"
+          >
+            <UserCheck className="w-4 h-4" />
+            Try Guest Access
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-// 2. Wrap the component in Suspense
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center pt-16 bg-gradient-to-br from-cream to-orange-50/40 px-4">
